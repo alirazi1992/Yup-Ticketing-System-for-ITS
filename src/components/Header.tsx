@@ -16,7 +16,7 @@ const Header = ({ isOpen, onToggleSidebar }: HeaderProps) => {
   const { user } = useAuth();
   const { theme, direction, toggleTheme, toggleDirection } = useUserSettings();
 
-  const [avatar, setAvatar] = useState('/avatar.png');
+  const [avatar, setAvatar] = useState('https://randomuser.me/api/portraits/men/32.jpg');
 
   useEffect(() => {
     const storedAvatar = localStorage.getItem('avatar');
@@ -66,3 +66,4 @@ const Header = ({ isOpen, onToggleSidebar }: HeaderProps) => {
 };
 
 export default Header;
+
