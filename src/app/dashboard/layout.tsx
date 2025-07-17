@@ -1,4 +1,6 @@
 // src/app/dashboard/layout.tsx
+'use client';
+
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
 import { useState } from 'react';
