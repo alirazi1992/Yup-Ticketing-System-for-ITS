@@ -17,6 +17,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
+    // First check localStorage for stored user
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       try {
@@ -26,6 +27,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         console.error('Failed to parse stored user:', error);
         localStorage.removeItem('user');
       }
+    } else {
+      // If no stored user, set a mock user for testing
+      const mockUser: User = {
+        id: '1',
+        name: 'دانیال شایگان',
+        email: 'daniel@example.com',
+        role: 'user'
+      };
+      setUser(mockUser);
+      localStorage.setItem('user', JSON.stringify(mockUser));
     }
   }, []);
 
