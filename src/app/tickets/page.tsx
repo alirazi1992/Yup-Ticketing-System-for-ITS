@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as Yup from 'yup';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -18,27 +17,7 @@ import {
   NetworkFields,
   OtherFields,
 } from '@/types/ticket';
-
-const validationSchemas: Record<TicketType, Yup.AnyObjectSchema> = {
-  software: Yup.object({
-    softwareName: Yup.string().required('Software name is required'),
-    version: Yup.string().required('Version is required'),
-    description: Yup.string().required('Description is required'),
-  }),
-  hardware: Yup.object({
-    deviceType: Yup.string().required('Device type is required'),
-    serialNumber: Yup.string().required('Serial number is required'),
-    description: Yup.string().required('Description is required'),
-  }),
-  network: Yup.object({
-    ip: Yup.string().required('IP address is required'),
-    connectionType: Yup.string().required('Connection type is required'),
-    description: Yup.string().required('Description is required'),
-  }),
-  other: Yup.object({
-    description: Yup.string().required('Description is required'),
-  }),
-};
+import { getSchemaByType } from '@/utils/validationSchemas';
 
 export default function TicketPage() {
   const [type, setType] = useState<TicketType>('software');
@@ -57,7 +36,7 @@ export default function TicketPage() {
     formState: { errors },
     reset,
   } = useForm<FieldValues>({
-    resolver: yupResolver(validationSchemas[type]),
+    resolver: yupResolver(getSchemaByType(type)),
   });
 
   const { sendMessage } = useWebSocket('ws://localhost:3001');
